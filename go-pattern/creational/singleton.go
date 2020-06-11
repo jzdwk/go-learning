@@ -24,7 +24,7 @@ func NewBySyncOnce() *singleton {
 	return instance
 }
 
-//2.sync.Mutex，通过互斥锁的懒汉模式
+//2.sync.Mutex，通过互斥锁的懒汉模式，锁的使用可参考 https://www.jianshu.com/p/679041bdaa39
 var mu sync.Mutex
 
 func NewBySyncMutex() *singleton {

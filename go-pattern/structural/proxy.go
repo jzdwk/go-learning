@@ -8,6 +8,8 @@ package structural
 我们可以在访问此对象时加上一个对此对象的访问层。
 3. 进行一些和访问实际对象无关的权限控制、过滤、LB等方案
 
+refer to：https://www.runoob.com/design-pattern/proxy-pattern.html
+		  https://zhuanlan.zhihu.com/p/26141688
 */
 
 //访问对象接口，代理实例和被代理实例均要实现

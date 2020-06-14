@@ -10,70 +10,72 @@ package structural
 	1、减少系统相互依赖。 2、提高灵活性。 3、提高了安全性。
 缺点：
 	不符合开闭原则，如果要改东西很麻烦，继承重写都不合适。
+例子：
+	MVC框架，controller/service/dao层均向上层提供了封装
 
 refer to: https://www.runoob.com/design-pattern/facade-pattern.html
 */
 
 //定义一个形状接口
-type shape interface {
+type shapeFcd interface {
 	doDraw() string
 }
 
 //圆形实现了形状
-type circle struct {
+type circleFcd struct {
 	msg string
 }
 
-func (c *circle) doDraw() string {
+func (c *circleFcd) doDraw() string {
 	return c.msg
 }
 
 //三角形实现了形状
-type rectangle struct {
+type rectangleFcd struct {
 	msg string
 }
 
-func (r *rectangle) doDraw() string {
+func (r *rectangleFcd) doDraw() string {
 	return r.msg
 }
 
 //方形实现了形状
-type square struct {
+type squareFcd struct {
 	msg string
 }
 
-func (c *square) doDraw() string {
+func (c *squareFcd) doDraw() string {
 	return c.msg
 }
 
 /*
-正常情况下，当用户想使用不同的形状doDraw时，将需要调用各自的square/rectangle/circle的doDraw
+正常情况下，当用户想使用不同的形状doDraw时，将需要调用各自的square/rectangleFcd/circle的doDraw
 如果这些实现不想包外可见，隐藏实现。则使用一个facade对其进行封装，对外只提供执行的接口drawCircle/drawSquare/drawRectangle
 */
 type shapeFacade struct {
 	//facade中维护各个实现的引用
-	circle
-	square
-	rectangle
+	circleFcd
+	squareFcd
+	rectangleFcd
 }
 
 //对外只提供一个facade封装
 func NewShapeFacade() shapeFacade {
 	return shapeFacade{
-		circle:    circle{msg: "this is circle"},
-		square:    square{msg: "this is square"},
-		rectangle: rectangle{msg: "this is rectangle"},
+		circleFcd:    circleFcd{msg: "this is circleFcd"},
+		squareFcd:    squareFcd{msg: "this is squareFcd"},
+		rectangleFcd: rectangleFcd{msg: "this is rectangleFcd"},
 	}
 }
 
 func (s *shapeFacade) drawCircle() string {
-	return s.circle.doDraw()
+	return s.circleFcd.doDraw()
 }
 
 func (s *shapeFacade) drawSquare() string {
-	return s.square.doDraw()
+	return s.squareFcd.doDraw()
 }
 
 func (s *shapeFacade) drawRectangle() string {
-	return s.rectangle.doDraw()
+	return s.rectangleFcd.doDraw()
 }

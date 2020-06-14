@@ -25,6 +25,7 @@ type proxySubject struct {
 
 func (s *proxySubject) doSth() string {
 	//代理逻辑为s.msg，真实sub的业务逻辑为s.subject.doSth
+	s.subject = &realSubject{"real sub"}
 	return s.msg + s.subject.doSth()
 }
 

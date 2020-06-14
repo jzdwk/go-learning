@@ -8,7 +8,8 @@ import (
 func TestProxy(t *testing.T) {
 	//根据规则需要，创建不同的sub实现
 	realSub := &realSubject{msg: "real sub"}
-	proxySub := &proxySubject{msg: "proxy:", subject: realSub}
+	//直接创建代理
+	proxySub := &proxySubject{msg: "proxy:"}
 	//proxy:real sub
 	doTest(proxySub)
 	//real sub

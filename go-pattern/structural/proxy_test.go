@@ -14,6 +14,9 @@ func TestProxy(t *testing.T) {
 	doTest(proxySub)
 	//real sub
 	doTest(realSub)
+	//使用函数变量
+	proxy := ProxyDoSth(realSub.doSth)
+	fmt.Println(proxy())
 }
 
 //使用代理后，所有调用的接口的入参定义sub接口即可

@@ -81,7 +81,7 @@ func NewShapeDecoratorB(base shapeDct) shapeDct {
 	return &shapeDecoratorB{base: base}
 }
 
-//实现2,直接定义func变量doDraw
+//实现2,直接定义func变量doDraw https://www.jianshu.com/p/55d65dd748ca
 type doDraw func() string
 
 func DecorateDraw(do doDraw) doDraw {

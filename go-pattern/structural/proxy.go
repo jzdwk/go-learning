@@ -12,6 +12,7 @@ refer to：https://www.runoob.com/design-pattern/proxy-pattern.html
 		  https://zhuanlan.zhihu.com/p/26141688
 */
 
+//实现1，使用传统的多态/继承
 //访问对象接口，代理实例和被代理实例均要实现
 type subject interface {
 	doSth() string
@@ -36,4 +37,14 @@ type realSubject struct {
 
 func (s *realSubject) doSth() string {
 	return s.msg
+}
+
+//实现2，直接使用函数变量，将被代理方法作为入参
+func ProxyDoSth(do func() string) func() string {
+	return func() string {
+		//add proxy
+		rst := " proxy "
+		rst += do()
+		return rst
+	}
 }

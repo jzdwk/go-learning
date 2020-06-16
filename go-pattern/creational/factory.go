@@ -194,6 +194,6 @@ func (f *lenovoAbFactory) createKeyboard() keyboard {
 但是对产品的横向扩展封闭。当产品类别扩充，比如除了鼠标，键盘，新增了网线，则所有接口和实现都要修改。
 
 因此适用的场景为：
-	产品的种类固定（api接口只有crud+list），产品的实现可扩展（多个api）
+	产品的种类固定（api接口只有crud+list），产品的实现可扩展（多个模块的api）
 
 */

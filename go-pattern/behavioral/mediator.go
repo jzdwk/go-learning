@@ -10,8 +10,11 @@ import "fmt"
 使用场景：
 	1. 多个组件间都需要互相的通信，形成了网状结构。因此需要一个“中介”，协调/处理各个组件间的通信，从而转化为星状结构。
 	2. 多用于调度场景；
-	3. MVC架构中的Controller就是M和V的“中介者”，View只需要和Controller通信.
-	根据api url，Controller层路由到具体的Controller实现完成业务逻辑
+	3. MVC架构中的Controller就是http请求和后端业务逻辑的中介者
+	首先，根据api定义，将具体的Controller实现(colleague)注册到路由表，即mediator的注册步骤
+	然后，Controller的接口定义中只需要定义http的request/response等方法，即mediator中的消息传递（sendMsg）方法
+	当接收http请求，根据path，Controller接口的实现路由到具体的Controller实现(colleague)处理业务逻辑，
+	再由colleague调用Controller的resp方法返回。
 关键代码：
 	组件之间的通信封装到一个类中单独处理。Mediator为中介者，Colleague为交互的组件，Colleague持有Mediator的引用
 */
@@ -25,7 +28,7 @@ type mediator interface {
 }
 
 //中介者的具体实现，其中维护和各个colleague的通信逻辑
-//本例子中通过一个route进行路由,进行一对一的转发，也可以为组播/广播等等，根据规则来定（类比于api定义）
+//本例子中通过一个colleagues map[string]colleague进行路由,进行一对一的转发，也可以为组播/广播等等，根据规则来定（类比于api定义）
 type myMediator struct {
 	colleagues map[string]colleague
 }

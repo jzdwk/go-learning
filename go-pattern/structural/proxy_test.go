@@ -11,6 +11,7 @@ func TestProxy(t *testing.T) {
 	//直接创建代理
 	proxySub := &proxySubject{msg: "proxy:"}
 	//proxy:real sub
+	//和装饰者的差别在于,proxy中不暴露被代理的sub参数，即对外无感知
 	doTest(proxySub)
 	//real sub
 	doTest(realSub)

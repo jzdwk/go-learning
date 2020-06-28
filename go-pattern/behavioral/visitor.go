@@ -16,6 +16,9 @@ import "fmt"
 关键代码:
 	定义visitor接口以及访问方法，各个visitor实现自己的访问策略；
 	数据对象定义一个accept方法，根据不同的visitor调用各自的访问策略
+
+refer to:
+	https://www.runoob.com/design-pattern/visitor-pattern.html
 */
 
 type computer struct {

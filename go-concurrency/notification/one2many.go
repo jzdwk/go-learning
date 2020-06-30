@@ -30,10 +30,12 @@ func main() {
 	// Simulate an initialization phase.
 	time.Sleep(time.Second * 3 / 2)
 	// 1-to-N notifications.
+	//向ready写入数据后，worker执行业务
 	ready <- T{}
 	ready <- T{}
 	ready <- T{}
 	// Being N-to-1 notified.
+	// 每个worker都执行完毕后，写入done，此处读取down执行
 	<-done
 	<-done
 	<-done

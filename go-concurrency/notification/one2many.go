@@ -35,7 +35,7 @@ func main() {
 	ready <- T{}
 	ready <- T{}
 	// Being N-to-1 notified.
-	// 每个worker都执行完毕后，写入done，此处读取down执行
+	// 每个worker都执行完毕后，写入done，此处读取done执行
 	<-done
 	<-done
 	<-done

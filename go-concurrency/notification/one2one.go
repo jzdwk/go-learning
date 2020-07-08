@@ -24,7 +24,7 @@ func main() {
 		// Receive a value from the done
 		// channel, to unblock the second
 		// send in main goroutine.
-		//这个routine读取后，main routine 继续执行
+		//这个channel被读取后，main routine 继续执行
 		<-done
 	}()
 

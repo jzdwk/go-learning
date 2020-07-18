@@ -8,7 +8,6 @@ import "time"
 
 type T = struct{}
 
-//两个入参，第一个ready是只读入参，没有值则阻塞；第二个done是只写，
 func worker(id int, ready <-chan T, done chan<- T) {
 	<-ready // block here and wait a notification
 	log.Print("Worker#", id, " starts.")

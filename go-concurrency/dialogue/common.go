@@ -1,54 +1,39 @@
+/*
+@Time : 20-7-8
+@Author : jzd
+@Project: go-learning
+*/
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"time"
+)
 
-type fibStt struct {
-	first  int
-	second int
-}
-type Fib1 chan fibStt
-type Fib2 chan fibStt
+type Ball uint64
 
 func main() {
-	//init
-	fib1 := make(Fib1, 1)
-	fib2 := make(Fib2, 1)
-	fibStt := fibStt{1, 1}
-	//写入channel1
-	fib1 <- fibStt
-	//调用两个routine去处理
-	go fib1.doFib("goroutine_1:", &fib2)
-	go fib2.doFib("goroutine_2:", &fib1)
-}
-
-func (f *Fib1) doFib(name string, fib2 *Fib2) {
-	for {
-		//从f1中取出值
-		fibStt := <-*f
-		tmp := fibStt.first
-		first := fibStt.second
-		second := tmp + first
-		fmt.Println(name + " generate " + string(second))
-		fibStt.first = first
-		fibStt.second = second
-		//写到f2
-		*fib2 <- fibStt
-	}
+	table := make(chan Ball, 1)
+	go func() {
+		table <- 1
+	}()
+	go Play("A:", table)
+	Play("B:", table)
 
 }
 
-func (f *Fib2) doFib(name string, fib1 *Fib1) {
+func Play(playerName string, table chan Ball) {
+	var lastValue Ball = 1
 	for {
-		//从f2中取出值
-		fibStt := <-*f
-		tmp := fibStt.first
-		first := fibStt.second
-		second := tmp + first
-		fmt.Println(name + " generate " + string(second))
-		fibStt.first = first
-		fibStt.second = second
-		//写到f1
-		*fib1 <- fibStt
+		ball := <-table // get the ball
+		fmt.Println(playerName, ball)
+		ball += lastValue
+		if ball < lastValue { // overflow
+			os.Exit(0)
+		}
+		lastValue = ball
+		time.Sleep(time.Second)
+		table <- ball // bat back the ball
 	}
-
 }

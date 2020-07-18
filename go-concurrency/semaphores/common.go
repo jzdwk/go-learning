@@ -39,6 +39,7 @@ func main() {
 		seat := <-bar24x7
 		go ServeCustomerAtSeat(customerId, seat, &bar24x7)
 	}
+	//for not exit
 	for {
 		time.Sleep(time.Second)
 	}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	_ "net/http/pprof"
 	"time"
@@ -41,35 +42,66 @@ func main() {
 func doWithCancel() {
 	//定义一个WithCancel函数，该函数返回了一个context的副本以及一个cancel函数，这个副本有一个Done的channel。
 	// 当函数被调用时，Done将close
-	ctx, cancel := context.WithCancel(context.Background())
-
-	/*	go func() {
+	//ctx, cancel := context.WithCancel(context.Background())
+	//ctx, timeout := context.WithTimeout(context.Background(),time.Second*10)
+	ctx, deadline := context.WithDeadline(context.TODO(), time.Now().Add(time.Second*3))
+	context.WithValue(ctx, "test", "from parent")
+	/*go func() {
 		time.Sleep(3 * time.Second)
 		//cancel的一般用法为在defer里定义，当主协程退出后，依次退出各个子协程
 		cancel()
 	}()*/
-	defer cancel()
+	//defer cancel()
 	//将ctx作为参数给函数A，注意ctx为参数表的第一个参数
-	log.Println(withCancelA(ctx))
-	time.Sleep(3 * time.Second)
+	go withCancelA(ctx)
+	go withCancelB(ctx)
+	time.Sleep(10 * time.Second)
+	//timeout()
+	deadline()
 	//cancel的一般用法为在defer里定义，当主协程退出后，依次退出各个子协程
 
 }
-func withCancelB(ctx context.Context) string {
-	select {
-	case <-ctx.Done():
-		return "B Done"
-	default:
-		return "B stop"
+func withCancelB(ctx context.Context) {
+	for {
+		time.Sleep(1 * time.Second)
+
+		if deadline, ok := ctx.Deadline(); ok { //设置了deadl
+			log.Println("deadline set")
+			if time.Now().After(deadline) {
+				log.Println(ctx.Err().Error())
+				return
+			}
+
+		}
+
+		select {
+		case <-ctx.Done():
+			log.Println("B done")
+		default:
+			log.Println(fmt.Sprintf("B run, %v", ctx.Value("test")))
+		}
 	}
 }
 
-func withCancelA(ctx context.Context) string {
-	go log.Println(withCancelB(ctx))
-	select {
-	case <-ctx.Done():
-		return "A Done"
-	default:
-		return "A stop"
+func withCancelA(ctx context.Context) {
+	for {
+		time.Sleep(1 * time.Second)
+
+		if deadline, ok := ctx.Deadline(); ok { //设置了deadl
+			log.Println(time.Now())
+			log.Println(deadline)
+			if time.Now().After(deadline) {
+				log.Println(ctx.Err().Error())
+				return
+			}
+
+		}
+
+		select {
+		case <-ctx.Done():
+			log.Println("A done")
+		default:
+			log.Println(fmt.Sprintf("A run, %v", ctx.Value("test")))
+		}
 	}
 }

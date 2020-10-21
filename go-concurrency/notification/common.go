@@ -5,6 +5,8 @@ import (
 	"math/rand"
 	"os"
 	"sort"
+	"time"
+	_ "time"
 )
 
 // 通知可以被看作是特殊的请求/回应用例。
@@ -12,7 +14,7 @@ import (
 // routine中完成自身逻辑后向channel写入
 // 主逻辑最后通过读取通知来执行routine结果
 
-func main() {
+func main4() {
 	values := make([]byte, 32*1024*1024)
 	if _, err := rand.Read(values); err != nil {
 		fmt.Println(err)
@@ -33,4 +35,22 @@ func main() {
 
 	<-done // 等待通知
 	fmt.Println(values[0], values[len(values)-1])
+}
+
+func main() {
+	done := make(chan int, 1)
+	handler(func() {
+		defer close(done)
+		fmt.Println("main sleep...")
+		time.Sleep(time.Second * 3)
+	})
+	go func() {
+		<-done
+		fmt.Println("routine get...")
+	}()
+	time.Sleep(time.Second * 10)
+}
+
+func handler(handle func()) {
+	handle()
 }

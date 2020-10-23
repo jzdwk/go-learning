@@ -1,6 +1,6 @@
 package main
 
-import (
+/*import (
 	"context"
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
@@ -52,3 +52,4 @@ func main() {
 
 	stdcopy.StdCopy(os.Stdout, os.Stderr, out)
 }
+*/

@@ -43,54 +43,27 @@ type myInt int
 
 func main() {
 	// base test
-	/*test := test{a: "hello", b: "world"}
+	test := test{a: "hello", b: "world"}
 	typeT := reflect.TypeOf(test)
 	typePt := reflect.TypeOf(&typeT)
-	fmt.Println("name: ", typeT.Name(),"kind: ",typeT.Kind())
-	fmt.Println("name: ", typePt.Name(),"kind: ",typePt.Kind())*/
+	fmt.Println("name: ", typeT.Name(), "kind: ", typeT.Kind())
+	fmt.Println("name: ", typePt.Name(), "kind: ", typePt.Kind())
 
 	// self define type
-	/*var myInt myInt = 1
+	var myInt myInt = 1
 	typeMy := reflect.TypeOf(myInt)
-	fmt.Println("name: ", typeMy.Name(),"kind: ", typeMy.Kind())*/
-
-	//empty
-
-	//test := Test{FiledA:1,FiledB:2,FiledD:false}
-	/*path1 := "test"
-	//path2 := "test"
-	yes, msg := IsValidUrlPath(path1)
-	fmt.Println(yes,msg)*/
-	//isEmpty(test,test2)
-	/*now := time.Now()
-	fmt.Println(now.String())
-	timeLocation, _ := time.LoadLocation("Asia/Shanghai")
-	now2 := now.In(timeLocation)
-	fmt.Println(now2.String())*/
-
-	a, b := 1, 2
-
-	switch {
-	case a == b:
-		fmt.Println("a")
-		break
-	case a != b:
-		fmt.Println("b")
-		break
-
-	}
+	fmt.Println("name: ", typeMy.Name(), "kind: ", typeMy.Kind())
 
 }
 
-/*
-func isEmpty(stt interface{})bool{
+func isEmpty2(stt interface{}) bool {
 	//v := reflect.ValueOf(stt)
 	t := reflect.TypeOf(stt)
-	for i := 0;i<t.NumField() ;i++  {
+	for i := 0; i < t.NumField(); i++ {
 		fieldType := t.Field(i)
-		if fieldType.Tag.Get("required") == "true"{
+		if fieldType.Tag.Get("required") == "true" {
 			//fieldValue := t.Field(i)
-			fmt.Println("filed type name: ",fieldType.Type.Kind())
+			fmt.Println("filed type name: ", fieldType.Type.Kind())
 			switch fieldType.Type.Kind() {
 			case reflect.Map: //map
 				break
@@ -102,13 +75,11 @@ func isEmpty(stt interface{})bool{
 
 			default:
 
-
 			}
 		}
 	}
 	return false
 }
-*/
 
 func isEmpty(field ...string) {
 	for _, value := range field {

@@ -34,10 +34,10 @@ func main() {
 	hello_grpc.RegisterGreeterServer(s, &server{})
 
 	reflection.Register(s)
-
 	err = s.Serve(lis)
 	if err != nil {
 		fmt.Printf("开启服务失败: %s", err)
 		return
 	}
+	fmt.Println("start gRpc...")
 }

@@ -3,15 +3,26 @@
 @Author : jzd
 @Project: go-learning
 */
-package main
+package test
 
 import (
 	"context"
 	"fmt"
+	"strings"
 )
 
-func main() {
-	p1 := "this is p1"
+type RouteConfig struct {
+	Uuid  string
+	Trans *TransConfig
+}
+
+type TransConfig struct {
+	Uuid   string
+	Config map[string]interface{}
+}
+
+func main2() {
+	/*p1 := "this is p1"
 	p2 := 2021
 
 	list := []funcValue{
@@ -21,8 +32,46 @@ func main() {
 
 	for _, o := range list {
 		o(context.Background(), p1, p2)
-	}
+	}*/
+	/*path := "/abc/get/info/*d+//"
+	subPath := strings.Split(path,"/")
+	if subPath[1] == "abc"{
+		finalPath := ""
+		for _, v := range subPath {
+			if v != "abc"{
+				finalPath = finalPath+v+"/"
+			}
+		}
+		fmt.Println(finalPath[0:len(finalPath)])
+	}*/
+	/*maps := make(map[string]string)
+	set(&maps)
+	fmt.Println(maps)*/
+	removePathPrefix("/cmcc2/delete/\\d+/info", "/cmcc2")
+}
 
+func removePathPrefix(path string, prefix string) string {
+	if prefix == "" {
+		return path
+	}
+	finalPath := ""
+	subPath := strings.Split(path, "/")
+	//old path has baseUrl
+	if subPath[1] == prefix {
+		for _, v := range subPath {
+			if v != prefix {
+				finalPath = finalPath + v + "/"
+			}
+		}
+		finalPath = finalPath[0 : len(finalPath)-1]
+	} else {
+		finalPath = path
+	}
+	return finalPath
+}
+
+func set(maps *map[string]string) {
+	(*maps)["a"] = "a"
 }
 
 type funcValue func(ctx context.Context, p1 string, p2 int)
